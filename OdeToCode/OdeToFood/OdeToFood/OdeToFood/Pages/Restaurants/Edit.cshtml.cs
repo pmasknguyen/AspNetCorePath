@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using OdeToFood.Core;
 using OdeToFood.Data;
 
@@ -14,7 +15,7 @@ namespace OdeToFood.Pages.Restaurants
     {
         private readonly IRestaurantData restaurantData;
         private readonly IHtmlHelper htmlHelper;
-
+        [BindProperty]
         public Restaurant Restaurant { get; set; }
         public IEnumerable<SelectListItem> Cuisines { get; set; }
         public EditModel(IRestaurantData restaurantData,IHtmlHelper htmlHelper)
@@ -32,6 +33,14 @@ namespace OdeToFood.Pages.Restaurants
                 return RedirectToPage("./NotFound");
             }
 
+            return Page();
+        }
+
+        public IActionResult OnPost()
+        {
+            Cuisines = htmlHelper.GetEnumSelectList<CuisineType>();
+            restaurantData.Update(Restaurant);
+            restaurantData.Commit();
             return Page();
         }
     }
