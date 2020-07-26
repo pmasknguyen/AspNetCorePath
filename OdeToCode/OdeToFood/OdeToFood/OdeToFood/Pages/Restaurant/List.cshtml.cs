@@ -24,13 +24,10 @@ namespace OdeToFood.Pages.Restaurant
             this.restaurantData = restaurantData;
 
         }
-        public void OnGet()
+        public void OnGet(string searchTerm)
         {
-            foreach(var rest in restaurantData.GetAll())
-            {
-                Message = config["Message"];
-                Restaurants = restaurantData.GetAll();
-            }
+            Message = config["Message"];
+            Restaurants = restaurantData.GetRestaurantsByName(searchTerm);
         }
     }
 }
