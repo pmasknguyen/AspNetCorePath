@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 using OdeToFood.Core;
 using OdeToFood.Data;
 
-namespace OdeToFood.Pages.Restaurant
+namespace OdeToFood.Pages.Restaurants
 {
     public class ListModel : PageModel
     {
