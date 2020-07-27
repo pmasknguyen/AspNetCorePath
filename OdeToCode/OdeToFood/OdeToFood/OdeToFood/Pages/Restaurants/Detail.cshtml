@@ -4,6 +4,10 @@
     ViewData["Title"] = "Detail";
 }
 
+@if (Model.Message != null)
+{
+    <div class="alert alert-info">@Model.Message</div>
+}
 <h2>@Model.Restaurant.Name</h2>
 
 <div>
@@ -17,10 +21,5 @@
 <div>
     Cuisine: @Model.Restaurant.Cuisine
 </div>
-
-@if(Model.Message!=null)
-{
-    <div class="alert alert-info">@Model.Message</div>
-}
 
 <a asp-page="./List" class="btn btn-default">All Restaurants</a>
