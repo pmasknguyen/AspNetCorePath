@@ -1,4 +1,5 @@
-﻿using OdeToFood.Core;
+﻿using Microsoft.EntityFrameworkCore;
+using OdeToFood.Core;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,62 +13,63 @@ namespace OdeToFood.Data
         Restaurant GetById(int id);
         Restaurant Update(Restaurant updatedRestaurant);
         Restaurant Add(Restaurant newRestaurant);
+        Restaurant Delete(int id);
         int Commit();
     }
 
-    public class InMemmoryRestaurantData : IRestaurantData
+    public class SqlRestaurantData : IRestaurantData
     {
-        List<Restaurant> restaurants;
-        public InMemmoryRestaurantData()
+        private readonly OdeToFoodDbContext db;
+
+        public SqlRestaurantData(OdeToFoodDbContext db)
         {
-            restaurants = new List<Restaurant>()
-            {
-                new Restaurant{Id=1,Name="Scott's Pizza",Location="MaryLand",Cuisine= CuisineType.Italian},
-                new Restaurant{Id=2,Name="Cinnamon Club",Location="London",Cuisine= CuisineType.Mexican},
-                new Restaurant{Id=3,Name="La Costa",Location="California",Cuisine= CuisineType.Indian}
-            };
+            this.db = db;
         }
-        public IEnumerable<Restaurant> GetAll()
+        public Restaurant Add(Restaurant newRestaurant)
         {
-            return from r in restaurants
-                   orderby r.Name
-                   select r;
-        } public IEnumerable<Restaurant> GetRestaurantsByName(string name = null)
-        {
-            return from r in restaurants 
-                   where string.IsNullOrEmpty(name) || r.Name.StartsWith(name)
-                   orderby r.Name
-                   select r;
+            db.Add(newRestaurant);
+            return newRestaurant;
         }
 
         public int Commit()
         {
-            return 0;
+            return db.SaveChanges();
         }
 
-        public Restaurant GetById(int id)
+        public Restaurant Delete(int id)
         {
-            return restaurants.FirstOrDefault(r => r.Id == id);
-        }
-
-        public Restaurant Update(Restaurant updatedRestaurant)
-        {
-            var restaurant = restaurants.FirstOrDefault(r => r.Id == updatedRestaurant.Id);
+            var restaurant = db.Restaurants.FirstOrDefault(r => r.Id == id);
             if(restaurant!=null)
             {
-                restaurant.Name = updatedRestaurant.Name;
-                restaurant.Location = updatedRestaurant.Location;
-                restaurant.Cuisine = updatedRestaurant.Cuisine;
+                db.Remove(restaurant);
             }
             return restaurant;
         }
 
-        public Restaurant Add(Restaurant newRestaurant)
+        public IEnumerable<Restaurant> GetAll()
         {
-            restaurants.Add(newRestaurant);
-            newRestaurant.Id = restaurants
-                .Max(r => r.Id) +1 ;
-            return newRestaurant;
+            return db.Restaurants;
+        }
+
+        public Restaurant GetById(int id)
+        {
+            return db.Restaurants.Find(id);
+        }
+
+        public IEnumerable<Restaurant> GetRestaurantsByName(string name)
+        {
+            var query = from r in db.Restaurants
+                        where r.Name.StartsWith(name) || string.IsNullOrEmpty(name)
+                        orderby r.Name
+                        select r;
+            return query;
+        }
+
+        public Restaurant Update(Restaurant updatedRestaurant)
+        {
+            var entity = db.Restaurants.Attach(updatedRestaurant);
+            entity.State = EntityState.Modified;
+            return updatedRestaurant;
         }
     }
 }
