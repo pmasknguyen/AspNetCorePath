@@ -17,7 +17,10 @@
         </div>
     </div>
 </form>
-
+@if (Model.Message != null)
+{ 
+    <div class="alert alert-info">@Model.Message</div>
+}
 <table class="table">
     @foreach (var restaurant in Model.Restaurants)
     {

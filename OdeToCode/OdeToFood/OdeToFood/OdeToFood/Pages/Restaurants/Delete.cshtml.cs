@@ -37,7 +37,7 @@ namespace OdeToFood.Pages.Restaurants
             }
             restaurantData.Delete(restaurantId);
             restaurantData.Commit();
-            TempData["Message"] = $"{restaurant.Name} deleted";
+            TempData["Message"] = $"{restaurant.Name} is deleted";
             return RedirectToPage("./List");
         }
     }
