@@ -14,6 +14,8 @@ namespace OdeToFood.Data
         Restaurant Update(Restaurant updatedRestaurant);
         Restaurant Add(Restaurant newRestaurant);
         Restaurant Delete(int id);
+
+        int GetCountOfRestaurants();
         int Commit();
     }
 
@@ -54,6 +56,11 @@ namespace OdeToFood.Data
         public Restaurant GetById(int id)
         {
             return db.Restaurants.Find(id);
+        }
+
+        public int GetCountOfRestaurants()
+        {
+            return db.Restaurants.Count();
         }
 
         public IEnumerable<Restaurant> GetRestaurantsByName(string name)
