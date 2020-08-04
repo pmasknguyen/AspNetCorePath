@@ -9,7 +9,7 @@ namespace CourseLibraryAPI.Controllers
 {
     [ApiController]
     [Route("api/authors")]
-    public class AuthorsController:ControllerBase
+    public class AuthorsController : ControllerBase
     {
         private readonly ICourseLibraryRepository _courseLibraryRepository;
 
@@ -23,6 +23,13 @@ namespace CourseLibraryAPI.Controllers
         {
             var authorsFromRepo = _courseLibraryRepository.GetAuthors();
             return new JsonResult(authorsFromRepo);
+        }
+
+        [HttpGet("{authorId:guid}")]
+        public IActionResult GetAuthor(Guid authorId)
+        {
+            var authorFromRepo = _courseLibraryRepository.GetAuthor(authorId);
+            return new JsonResult(authorFromRepo);
         }
     }
 }
