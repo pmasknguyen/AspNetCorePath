@@ -29,6 +29,10 @@ namespace CourseLibraryAPI.Controllers
         public IActionResult GetAuthor(Guid authorId)
         {
             var authorFromRepo = _courseLibraryRepository.GetAuthor(authorId);
+            if (authorFromRepo==null)
+            {
+                return NotFound();
+            }
             return new JsonResult(authorFromRepo);
         }
     }
