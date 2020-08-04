@@ -1,4 +1,5 @@
-﻿using CourseLibrary.API.Services;
+﻿using AutoMapper;
+using CourseLibrary.API.Services;
 using CourseLibraryAPI.Helpers;
 using CourseLibraryAPI.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -14,19 +15,21 @@ namespace CourseLibraryAPI.Controllers
     public class AuthorsController : ControllerBase
     {
         private readonly ICourseLibraryRepository _courseLibraryRepository;
+        private readonly IMapper _mapper;
 
-        public AuthorsController(ICourseLibraryRepository courseLibraryRepository)
+        public AuthorsController(ICourseLibraryRepository courseLibraryRepository, IMapper mapper)
         {
             _courseLibraryRepository = courseLibraryRepository ??
                 throw new ArgumentNullException(nameof(courseLibraryRepository));
+            _mapper = mapper;
         }
 
         [HttpGet()]
-        public ActionResult<IEnumerable<AuhorDto>> GetAuthors()
+        public ActionResult<IEnumerable<AuthorDto>> GetAuthors()
         {
             var authorsFromRepo = _courseLibraryRepository.GetAuthors();
 
-            var authors = new List<AuhorDto>();
+            /*var authors = new List<AuhorDto>();
 
             foreach(var author in authorsFromRepo)
             {
@@ -40,7 +43,8 @@ namespace CourseLibraryAPI.Controllers
 
             }
 
-            return Ok(authors);
+            return Ok(authors);*/
+            return Ok(_mapper.Map<IEnumerable<AuthorDto>>(authorsFromRepo));
         }
 
         [HttpGet("{authorId:guid}")]
@@ -52,7 +56,7 @@ namespace CourseLibraryAPI.Controllers
                 return NotFound();
             }
              
-            return Ok(authorFromRepo);
+            return Ok(_mapper.Map<AuthorDto>(authorFromRepo));
         }
     }
 }
