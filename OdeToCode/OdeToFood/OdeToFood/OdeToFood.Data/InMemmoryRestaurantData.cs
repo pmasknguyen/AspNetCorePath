@@ -71,7 +71,7 @@ namespace OdeToFood.Data
 
         public int GetCountOfRestaurants()
         {
-            throw new System.NotImplementedException();
+            return restaurants.Count;
         }
     }
 }
