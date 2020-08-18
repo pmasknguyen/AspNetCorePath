@@ -22,5 +22,7 @@
   <ItemGroup>
     <Folder Include="Pages\Components\" />
   </ItemGroup>
-
+  <ItemGroup>
+    <None Include="node_modules/**" />
+  </ItemGroup>
 </Project>
