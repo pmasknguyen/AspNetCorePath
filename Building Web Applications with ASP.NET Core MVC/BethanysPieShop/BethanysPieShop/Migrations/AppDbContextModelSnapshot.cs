@@ -256,7 +256,7 @@ namespace BethanysPieShop.Migrations
 
             modelBuilder.Entity("BethanysPieShop.Models.ShoppingCartItem", b =>
                 {
-                    b.Property<int>("ShoppingCardItemId")
+                    b.Property<int>("ShoppingCartItemId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -267,10 +267,10 @@ namespace BethanysPieShop.Migrations
                     b.Property<int?>("PieId")
                         .HasColumnType("int");
 
-                    b.Property<string>("ShoppingCardId")
+                    b.Property<string>("ShoppingCartId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ShoppingCardItemId");
+                    b.HasKey("ShoppingCartItemId");
 
                     b.HasIndex("PieId");
 

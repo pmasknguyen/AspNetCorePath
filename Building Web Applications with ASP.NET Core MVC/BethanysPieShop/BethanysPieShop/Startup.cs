@@ -29,6 +29,9 @@ namespace BethanysPieShop
                 => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IPieRepository, PieRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<ShoppingCart>(p => ShoppingCart.GetCard(p));
+            services.AddHttpContextAccessor();
+            services.AddSession();
             services.AddControllersWithViews();
         }
 
@@ -42,11 +45,11 @@ namespace BethanysPieShop
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseSession();//Must be before UserRouting
 
             app.UseNodeModules();
 
             app.UseRouting();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

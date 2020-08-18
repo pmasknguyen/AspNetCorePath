@@ -2,7 +2,7 @@
 
 namespace BethanysPieShop.Migrations
 {
-    public partial class shoppingcard : Migration
+    public partial class addshoppingcart : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -10,15 +10,15 @@ namespace BethanysPieShop.Migrations
                 name: "ShoppingCartItems",
                 columns: table => new
                 {
-                    ShoppingCardItemId = table.Column<int>(nullable: false)
+                    ShoppingCartItemId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PieId = table.Column<int>(nullable: true),
                     Amount = table.Column<int>(nullable: false),
-                    ShoppingCardId = table.Column<string>(nullable: true)
+                    ShoppingCartId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ShoppingCartItems", x => x.ShoppingCardItemId);
+                    table.PrimaryKey("PK_ShoppingCartItems", x => x.ShoppingCartItemId);
                     table.ForeignKey(
                         name: "FK_ShoppingCartItems_Pies_PieId",
                         column: x => x.PieId,

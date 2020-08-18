@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BethanysPieShop.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200811011805_shoppingcard")]
-    partial class shoppingcard
+    [Migration("20200818171725_addshoppingcart")]
+    partial class addshoppingcart
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -258,7 +258,7 @@ namespace BethanysPieShop.Migrations
 
             modelBuilder.Entity("BethanysPieShop.Models.ShoppingCartItem", b =>
                 {
-                    b.Property<int>("ShoppingCardItemId")
+                    b.Property<int>("ShoppingCartItemId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -269,10 +269,10 @@ namespace BethanysPieShop.Migrations
                     b.Property<int?>("PieId")
                         .HasColumnType("int");
 
-                    b.Property<string>("ShoppingCardId")
+                    b.Property<string>("ShoppingCartId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ShoppingCardItemId");
+                    b.HasKey("ShoppingCartItemId");
 
                     b.HasIndex("PieId");
 
