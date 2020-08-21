@@ -18,11 +18,19 @@ namespace BethanysPieShop.Controllers
             this._pieRepository = pieRepository;
             this._categoryRepository = categoryRepository;
         }
-        public IActionResult List()
+        //public IActionResult List()
+        //{
+        //    PiesListViewModel piesListViewModel = new PiesListViewModel();
+        //    piesListViewModel.Pies = _pieRepository.AllPies;
+        //    piesListViewModel.CurrentCategory = "Test";
+        //    return View(piesListViewModel);
+        //}
+
+        public IActionResult List(string category)
         {
             PiesListViewModel piesListViewModel = new PiesListViewModel();
-            piesListViewModel.Pies = _pieRepository.AllPies;
-            piesListViewModel.CurrentCategory = "Test";
+            piesListViewModel.Pies = _pieRepository.AllPies.Where(e=>e.Category.CategoryName==category || String.IsNullOrEmpty(category));
+            piesListViewModel.CurrentCategory = category;
             return View(piesListViewModel);
         }
 
