@@ -7,23 +7,23 @@ namespace BethanysPieShop.Models
 {
     public class OrderRepository : IOrderRepository
     {
-        private readonly AppDbContext appDbContext;
-        private readonly ShoppingCart shoppingCart;
+        private readonly AppDbContext _appDbContext;
+        private readonly ShoppingCart _shoppingCart;
 
         public OrderRepository(AppDbContext appDbContext, ShoppingCart shoppingCart)
         {
-            this.appDbContext = appDbContext;
-            this.shoppingCart = shoppingCart;
+            this._appDbContext = appDbContext;
+            this._shoppingCart = shoppingCart;
         }
 
         public void CreateOrder(Order order)
         {
             order.OrderPlaced = DateTime.Now;
 
-            appDbContext.Orders.Add(order);
+            _appDbContext.Orders.Add(order);
 
-            var shoppingCartItems = shoppingCart.ShoppingCartItems;
-
+            var shoppingCartItems = _shoppingCart.ShoppingCartItems;
+            order.OrderTotal = _shoppingCart.GetShoppingCartTotal();
             foreach (var shoppingCartItem in shoppingCartItems)
             {
                 var orderDetail = new OrderDetail()
@@ -31,11 +31,10 @@ namespace BethanysPieShop.Models
                     Amount = shoppingCartItem.Amount,
                     PieId = shoppingCartItem.Pie.PieId,
                     Price = shoppingCartItem.Pie.Price,
-                    OrderId = order.OrderId
                 };
                 order.OrderDetails.Add(orderDetail);
             }
-            appDbContext.SaveChanges();
+            _appDbContext.SaveChanges();
         }
 
     }
