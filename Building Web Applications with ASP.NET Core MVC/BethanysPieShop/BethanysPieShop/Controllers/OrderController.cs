@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BethanysPieShop.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.StaticFiles.Infrastructure;
 
 namespace BethanysPieShop.Controllers
 {
@@ -18,9 +19,33 @@ namespace BethanysPieShop.Controllers
             this.shoppingCart = shoppingCart;
         }
 
-
         public IActionResult CheckOut()
         {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult CheckOut(Order order)
+        {
+            var items = shoppingCart.GetShoppingCartItems();
+            shoppingCart.ShoppingCartItems = items;
+            if (shoppingCart.ShoppingCartItems.Count==0)
+            {
+                ModelState.AddModelError("", "Your cart is empty, add some pies first");
+            }
+
+            if (ModelState.IsValid)
+            {
+                this.orderRepository.CreateOrder(order);
+                shoppingCart.ClearCart();
+                return RedirectToAction("CheckoutComplete");
+            }
+            return View(order);
+        }
+
+        public IActionResult CheckoutComplete()
+        {
+            ViewBag.CheckoutCompleteMessage = "Thank for your order. You'll soon enjoy our delicious pies.";  
             return View();
         }
     }

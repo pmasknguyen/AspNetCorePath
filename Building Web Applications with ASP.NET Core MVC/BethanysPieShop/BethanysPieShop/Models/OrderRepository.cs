@@ -33,7 +33,7 @@ namespace BethanysPieShop.Models
                     Price = shoppingCartItem.Pie.Price,
                     OrderId = order.OrderId
                 };
-                appDbContext.OrderDetails.Add(orderDetail);
+                order.OrderDetails.Add(orderDetail);
             }
             appDbContext.SaveChanges();
         }
