@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TennisBookings.Web.Services;
 
 namespace TennisBookings.Web
 {
@@ -18,6 +19,7 @@ namespace TennisBookings.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IWeatherForecaster, WeatherForecaster>();
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
@@ -33,7 +35,6 @@ namespace TennisBookings.Web
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
-
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             

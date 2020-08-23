@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 
 namespace TennisBookings.Web.Services
 {
-    public class AmazingForecaster
+    public class AmazingForecaster:IWeatherForecaster
     {
-        public WeatherResult GetWeatherResult()
+
+        public WeatherResult GetCurrentWeather()
         {
             return new WeatherResult {
                 WeatherCondition = WeatherCondition.Sun
