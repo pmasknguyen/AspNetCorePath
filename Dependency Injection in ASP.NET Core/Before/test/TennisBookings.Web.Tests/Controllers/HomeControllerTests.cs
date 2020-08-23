@@ -16,7 +16,7 @@ namespace TennisBookings.Web.Tests.Controllers
             mockWeatherForecaster.Setup(w => w.GetCurrentWeather()).Returns(new WeatherResult
             {
                 WeatherCondition = WeatherCondition.Sun
-            }); ;
+            });
 
             var sut = new HomeController(mockWeatherForecaster.Object);
 
@@ -30,7 +30,13 @@ namespace TennisBookings.Web.Tests.Controllers
         [Fact]
         public void ReturnsExpectedViewModel_WhenWeatherIsRain()
         {
-            var sut = new HomeController(null);
+            var mockWeatherForecaster = new Mock<IWeatherForecaster>();
+            mockWeatherForecaster.Setup(w => w.GetCurrentWeather()).Returns(new WeatherResult
+            {
+                WeatherCondition = WeatherCondition.Rain
+            });
+
+            var sut = new HomeController(mockWeatherForecaster.Object);
 
             var result = sut.Index();
 
